@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class GreetingControllerUnitTest extends BaseUnitTest {
 
     @Test
-    void testVariousContentGiven() {
+    void test_randomized_content_given() {
         //Given a subject under test
         var sut = new GreetingController();
 

@@ -1,9 +1,14 @@
 
+test {
+    useJUnitPlatform()
+}
+
 task unitTests( type: Test, dependsOn: [build] ) {
+    description = 'Runs the Unit Tests.'
     useJUnitPlatform {
         scanForTestClasses = false
         includes = ['**/*UnitTest.class']
-        excludes = ['']
+        excludes = ['**/BaseUnitTest.class']
         maxParallelForks = Runtime.runtime.availableProcessors()
     }
     testLogging {
@@ -14,9 +19,7 @@ task unitTests( type: Test, dependsOn: [build] ) {
 }
 
 task integrationTests( type: Test, dependsOn: [build] ) {
-    maxHeapSize = '6g'
-    group 'Verification'
-    description = 'Runs the integration tests.'
+    description = 'Runs the Integration Tests.'
     debug = false
     useJUnitPlatform {
         scanForTestClasses = false

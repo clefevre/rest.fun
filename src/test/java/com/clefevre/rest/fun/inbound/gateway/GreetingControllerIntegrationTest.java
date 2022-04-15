@@ -3,9 +3,7 @@ package com.clefevre.rest.fun.inbound.gateway;
 import com.clefevre.rest.fun.BaseIntegrationTest;
 import com.clefevre.rest.fun.domain.Greeting;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -18,10 +16,10 @@ public class GreetingControllerIntegrationTest extends BaseIntegrationTest {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                                                           .scheme( "http" )
                                                           .host( "localhost" )
-                                                          .port( 8080 )
+                                                          .port( port )
                                                           .path( "/greeting" )
                                                           .build();
-        var result = restTemplate.getForObject( uriComponents.toUri(), Greeting.class );
+        var result = testRestTemplate.getForObject( uriComponents.toUri(), Greeting.class );
         assertEquals( String.format( GreetingController.template, "World" ), result.getContent() );
     }
 
@@ -32,11 +30,11 @@ public class GreetingControllerIntegrationTest extends BaseIntegrationTest {
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme( "http" )
                 .host( "localhost" )
-                .port( 8080 )
+                .port( port )
                 .path( "/greeting" )
                 .queryParam( String.format( "name=%s", inputContent) )
                 .build();
-        var result = restTemplate.getForObject( uriComponents.toUri(), Greeting.class );
+        var result = testRestTemplate.getForObject( uriComponents.toUri(), Greeting.class );
         assertEquals( String.format( GreetingController.template, inputContent ), result.getContent() );
     }
 }
