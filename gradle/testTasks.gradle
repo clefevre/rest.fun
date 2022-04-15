@@ -1,0 +1,35 @@
+
+task unitTests( type: Test, dependsOn: [build] ) {
+    useJUnitPlatform {
+        scanForTestClasses = false
+        includes = ['**/*UnitTest.class']
+        excludes = ['']
+        maxParallelForks = Runtime.runtime.availableProcessors()
+    }
+    testLogging {
+        showStandardStreams = false
+        exceptionFormat = 'full'
+    }
+    reports.html.destination( file( "$buildDir/reports/unitTests" ) )
+}
+
+task integrationTests( type: Test, dependsOn: [build] ) {
+    maxHeapSize = '6g'
+    group 'Verification'
+    description = 'Runs the integration tests.'
+    debug = false
+    useJUnitPlatform {
+        scanForTestClasses = false
+        includes = ['**/*IntegrationTest.class']
+        excludes = ['']
+    }
+    testLogging {
+        showStandardStreams = false
+        exceptionFormat = 'full'
+    }
+    reports.html.destination( file( "$buildDir/reports/outboundIntegrationTests" ) )
+
+    // if the profile system property is set, copy into forked child process
+    def springProfilesActive = System.properties['spring.profiles.active']
+    if ( springProfilesActive ) { systemProperties['spring.profiles.active'] = springProfilesActive }
+}

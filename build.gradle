@@ -6,11 +6,13 @@ plugins {
 
 group = 'com.clefevre'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '18'
+sourceCompatibility = '17'
 
 repositories {
 	mavenCentral()
 }
+
+apply from: "$rootDir/gradle/testTasks.gradle"
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -18,8 +20,8 @@ dependencies {
 	implementation 'org.liquibase:liquibase-core'
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.mockito:mockito-core:4.4.0'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}
+defaultTasks << 'unitTests'
+defaultTasks << 'integrationTests'
